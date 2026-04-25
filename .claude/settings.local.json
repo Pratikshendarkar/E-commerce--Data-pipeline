@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python data_ingestion/s3_to_bronze.py)",
+      "Bash(pip show *)"
+    ]
+  }
+}

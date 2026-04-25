@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+
+  s3_to_bronze:
+    build: .
+    command: python data_ingestion/s3_to_bronze.py
+    env_file: .env
+
+  bronze_to_silver:
+    build: .
+    command: python data_ingestion/bronze_to_silver.py
+    env_file: .env
+
+  data_cleaning:
+    build: .
+    command: python data_ingestion/data_cleaning.py
+    env_file: .env
+
+  quality_checks:
+    build: .
+    command: python data_ingestion/quality_checks.py
+    env_file: .env
+
+  silver_to_gold:
+    build: .
+    command: python data_ingestion/silver_to_gold.py
+    env_file: .env
+
+  gold_to_s3:
+    build: .
+    command: python data_ingestion/gold_to_s3.py
+    env_file: .env
+
+  send_report:
+    build: .
+    command: python data_ingestion/send_report.py
+    env_file: .env
+
+  send_silver_report:
+    build: .
+    command: python data_ingestion/send_silver_report.py
+    env_file: .env
