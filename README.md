@@ -12,6 +12,8 @@
 > and exports the final Gold layer back to S3 — ready for Power BI dashboards and ML model training.
 
 ---
+<img width="1875" height="920" alt="image" src="https://github.com/user-attachments/assets/7df89aca-fdf2-4331-bec8-f348fa2b8541" />
+
 
 ## Table of Contents
 
