@@ -2,42 +2,140 @@ version: "3.8"
 
 services:
 
+  # ══════════════════════════════════════════════════════════════════════════════
+  # AIRFLOW ORCHESTRATION
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  airflow-init:
+    build: .
+    command: >
+      bash -c "airflow db migrate &&
+               airflow users create --username admin --firstname Admin --lastname User --role Admin --email admin@example.com --password admin 2>/dev/null || true"
+    environment:
+      AIRFLOW_HOME: /app/.airflow
+      AIRFLOW__CORE__DAGS_FOLDER: /app/dags
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__LOAD_DEFAULT_CONNECTIONS: "false"
+    env_file: .env
+    volumes:
+      - ./.airflow:/app/.airflow
+      - ./dags:/app/dags
+      - ./data_ingestion:/app/data_ingestion
+    networks:
+      - airflow-network
+
+  airflow-scheduler:
+    build: .
+    command: airflow scheduler
+    depends_on:
+      - airflow-init
+    environment:
+      AIRFLOW_HOME: /app/.airflow
+      AIRFLOW__CORE__DAGS_FOLDER: /app/dags
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////app/.airflow/airflow.db
+    env_file: .env
+    volumes:
+      - ./.airflow:/app/.airflow
+      - ./dags:/app/dags
+      - ./data_ingestion:/app/data_ingestion
+      - ./logs:/app/logs
+    networks:
+      - airflow-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8793/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  airflow-webserver:
+    build: .
+    command: airflow webserver --port 8080
+    depends_on:
+      - airflow-init
+    environment:
+      AIRFLOW_HOME: /app/.airflow
+      AIRFLOW__CORE__DAGS_FOLDER: /app/dags
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////app/.airflow/airflow.db
+    env_file: .env
+    volumes:
+      - ./.airflow:/app/.airflow
+      - ./dags:/app/dags
+      - ./data_ingestion:/app/data_ingestion
+      - ./logs:/app/logs
+    ports:
+      - "8080:8080"
+    networks:
+      - airflow-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # PIPELINE STAGE SERVICES (for manual/standalone execution)
+  # ══════════════════════════════════════════════════════════════════════════════
+
   s3_to_bronze:
     build: .
     command: python data_ingestion/s3_to_bronze.py
     env_file: .env
+    volumes:
+      - ./data_ingestion:/app/data_ingestion
 
   bronze_to_silver:
     build: .
     command: python data_ingestion/bronze_to_silver.py
     env_file: .env
+    volumes:
+      - ./data_ingestion:/app/data_ingestion
 
   data_cleaning:
     build: .
     command: python data_ingestion/data_cleaning.py
     env_file: .env
+    volumes:
+      - ./data_ingestion:/app/data_ingestion
 
   quality_checks:
     build: .
     command: python data_ingestion/quality_checks.py
     env_file: .env
+    volumes:
+      - ./data_ingestion:/app/data_ingestion
 
   silver_to_gold:
     build: .
     command: python data_ingestion/silver_to_gold.py
     env_file: .env
+    volumes:
+      - ./data_ingestion:/app/data_ingestion
 
   gold_to_s3:
     build: .
     command: python data_ingestion/gold_to_s3.py
     env_file: .env
+    volumes:
+      - ./data_ingestion:/app/data_ingestion
 
   send_report:
     build: .
     command: python data_ingestion/send_report.py
     env_file: .env
+    volumes:
+      - ./data_ingestion:/app/data_ingestion
 
   send_silver_report:
     build: .
     command: python data_ingestion/send_silver_report.py
     env_file: .env
+    volumes:
+      - ./data_ingestion:/app/data_ingestion
+
+networks:
+  airflow-network:
+    driver: bridge

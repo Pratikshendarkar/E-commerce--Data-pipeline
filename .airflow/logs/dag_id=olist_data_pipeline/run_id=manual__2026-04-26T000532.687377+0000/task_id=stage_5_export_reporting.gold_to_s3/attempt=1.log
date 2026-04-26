@@ -1,0 +1,33 @@
+[2026-04-26T00:07:24.147+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: olist_data_pipeline.stage_5_export_reporting.gold_to_s3 manual__2026-04-26T00:05:32.687377+00:00 [queued]>
+[2026-04-26T00:07:24.172+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: olist_data_pipeline.stage_5_export_reporting.gold_to_s3 manual__2026-04-26T00:05:32.687377+00:00 [queued]>
+[2026-04-26T00:07:24.185+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-04-26T00:07:24.250+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): stage_5_export_reporting.gold_to_s3> on 2026-04-26 00:05:32.687377+00:00
+[2026-04-26T00:07:24.255+0000] {standard_task_runner.py:60} INFO - Started process 111 to run task
+[2026-04-26T00:07:24.261+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'olist_data_pipeline', 'stage_5_export_reporting.gold_to_s3', 'manual__2026-04-26T00:05:32.687377+00:00', '--job-id', '41', '--raw', '--subdir', 'DAGS_FOLDER/olist_pipeline_dag.py', '--cfg-path', '/tmp/tmpb8cpkr2h']
+[2026-04-26T00:07:24.264+0000] {standard_task_runner.py:88} INFO - Job 41: Subtask stage_5_export_reporting.gold_to_s3
+[2026-04-26T00:07:24.445+0000] {task_command.py:423} INFO - Running <TaskInstance: olist_data_pipeline.stage_5_export_reporting.gold_to_s3 manual__2026-04-26T00:05:32.687377+00:00 [running]> on host c24f832798f5
+[2026-04-26T00:07:24.709+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data-engineering' AIRFLOW_CTX_DAG_ID='olist_data_pipeline' AIRFLOW_CTX_TASK_ID='stage_5_export_reporting.gold_to_s3' AIRFLOW_CTX_EXECUTION_DATE='2026-04-26T00:05:32.687377+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-04-26T00:05:32.687377+00:00'
+[2026-04-26T00:07:37.655+0000] {logging_mixin.py:188} INFO - Exporting 16 GOLD tables to s3://awsdatapratik/finaloutput/
+
+  dim_date                                           1,461 rows  ->  1 file(s)  ->  s3://awsdatapratik/finaloutput/dim_date/
+  dim_geolocation                                   19,015 rows  ->  1 file(s)  ->  s3://awsdatapratik/finaloutput/dim_geolocation/
+  dim_customers                                     99,441 rows  ->  1 file(s)  ->  s3://awsdatapratik/finaloutput/dim_customers/
+  dim_sellers                                        2,615 rows  ->  1 file(s)  ->  s3://awsdatapratik/finaloutput/dim_sellers/
+  dim_products                                      26,983 rows  ->  1 file(s)  ->  s3://awsdatapratik/finaloutput/dim_products/
+  fact_orders                                       98,301 rows  ->  1 file(s)  ->  s3://awsdatapratik/finaloutput/fact_orders/
+  fact_order_items                                  82,971 rows  ->  1 file(s)  ->  s3://awsdatapratik/finaloutput/fact_order_items/
+  agg_revenue_by_category                            1,186 rows  ->  1 file(s)  ->  s3://awsdatapratik/finaloutput/agg_revenue_by_category/
+  agg_revenue_by_state                                 565 rows  ->  1 file(s)  ->  s3://awsdatapratik/finaloutput/agg_revenue_by_state/
+  agg_seller_performance                             2,615 rows  ->  1 file(s)  ->  s3://awsdatapratik/finaloutput/agg_seller_performance/
+  agg_customer_cohorts                                 225 rows  ->  1 file(s)  ->  s3://awsdatapratik/finaloutput/agg_customer_cohorts/
+  ml_customer_features                              94,815 rows  ->  1 file(s)  ->  s3://awsdatapratik/finaloutput/ml_customer_features/
+  ml_seller_features                                 2,615 rows  ->  1 file(s)  ->  s3://awsdatapratik/finaloutput/ml_seller_features/
+  ml_delivery_features                              95,340 rows  ->  1 file(s)  ->  s3://awsdatapratik/finaloutput/ml_delivery_features/
+  ml_review_features                                97,039 rows  ->  1 file(s)  ->  s3://awsdatapratik/finaloutput/ml_review_features/
+  master_table                                     108,841 rows  ->  1 file(s)  ->  s3://awsdatapratik/finaloutput/master_table/
+
+All tables exported successfully to s3://awsdatapratik/finaloutput/
+[2026-04-26T00:07:37.656+0000] {python.py:201} INFO - Done. Returned value was: None
+[2026-04-26T00:07:37.682+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=olist_data_pipeline, task_id=stage_5_export_reporting.gold_to_s3, execution_date=20260426T000532, start_date=20260426T000724, end_date=20260426T000737
+[2026-04-26T00:07:37.781+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-04-26T00:07:37.824+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

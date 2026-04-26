@@ -19,7 +19,10 @@ results = []
 
 
 def get_connection():
-    return snowflake.connector.connect(**SNOWFLAKE_CONFIG)
+    conn = snowflake.connector.connect(**SNOWFLAKE_CONFIG)
+    warehouse = SNOWFLAKE_CONFIG["warehouse"]
+    conn.cursor().execute(f"ALTER WAREHOUSE {warehouse} SET AUTO_SUSPEND = 60 AUTO_RESUME = TRUE")
+    return conn
 
 
 def check(cursor, name, query, expect_zero=True):

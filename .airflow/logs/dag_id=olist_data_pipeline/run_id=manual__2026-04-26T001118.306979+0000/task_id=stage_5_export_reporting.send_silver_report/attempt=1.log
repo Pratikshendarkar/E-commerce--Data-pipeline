@@ -1,0 +1,57 @@
+[2026-04-26T00:13:47.845+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: olist_data_pipeline.stage_5_export_reporting.send_silver_report manual__2026-04-26T00:11:18.306979+00:00 [queued]>
+[2026-04-26T00:13:47.876+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: olist_data_pipeline.stage_5_export_reporting.send_silver_report manual__2026-04-26T00:11:18.306979+00:00 [queued]>
+[2026-04-26T00:13:47.877+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-04-26T00:13:47.965+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): stage_5_export_reporting.send_silver_report> on 2026-04-26 00:11:18.306979+00:00
+[2026-04-26T00:13:47.970+0000] {standard_task_runner.py:60} INFO - Started process 157 to run task
+[2026-04-26T00:13:47.976+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'olist_data_pipeline', 'stage_5_export_reporting.send_silver_report', 'manual__2026-04-26T00:11:18.306979+00:00', '--job-id', '54', '--raw', '--subdir', 'DAGS_FOLDER/olist_pipeline_dag.py', '--cfg-path', '/tmp/tmpem7scv3m']
+[2026-04-26T00:13:47.979+0000] {standard_task_runner.py:88} INFO - Job 54: Subtask stage_5_export_reporting.send_silver_report
+[2026-04-26T00:13:48.202+0000] {task_command.py:423} INFO - Running <TaskInstance: olist_data_pipeline.stage_5_export_reporting.send_silver_report manual__2026-04-26T00:11:18.306979+00:00 [running]> on host c24f832798f5
+[2026-04-26T00:13:48.493+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data-engineering' AIRFLOW_CTX_DAG_ID='olist_data_pipeline' AIRFLOW_CTX_TASK_ID='stage_5_export_reporting.send_silver_report' AIRFLOW_CTX_EXECUTION_DATE='2026-04-26T00:11:18.306979+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-04-26T00:11:18.306979+00:00'
+[2026-04-26T00:13:53.439+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/dags/olist_pipeline_dag.py", line 147, in run_send_silver_report
+    raise Exception(f"send_silver_report failed: {result.stderr}")
+Exception: send_silver_report failed: Traceback (most recent call last):
+  File "/app/data_ingestion/send_silver_report.py", line 329, in <module>
+    main()
+  File "/app/data_ingestion/send_silver_report.py", line 320, in main
+    send_email(html, run_time)
+  File "/app/data_ingestion/send_silver_report.py", line 291, in send_email
+    server.login(EMAIL_SENDER, EMAIL_PASSWORD)
+  File "/usr/local/lib/python3.11/smtplib.py", line 750, in login
+    raise last_exception
+  File "/usr/local/lib/python3.11/smtplib.py", line 739, in login
+    (code, resp) = self.auth(
+                   ^^^^^^^^^^
+  File "/usr/local/lib/python3.11/smtplib.py", line 662, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials af79cd13be357-8eb19632130sm2067802185a.41 - gsmtp')
+
+[2026-04-26T00:13:53.475+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=olist_data_pipeline, task_id=stage_5_export_reporting.send_silver_report, execution_date=20260426T001118, start_date=20260426T001347, end_date=20260426T001353
+[2026-04-26T00:13:53.549+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 54 for task stage_5_export_reporting.send_silver_report (send_silver_report failed: Traceback (most recent call last):
+  File "/app/data_ingestion/send_silver_report.py", line 329, in <module>
+    main()
+  File "/app/data_ingestion/send_silver_report.py", line 320, in main
+    send_email(html, run_time)
+  File "/app/data_ingestion/send_silver_report.py", line 291, in send_email
+    server.login(EMAIL_SENDER, EMAIL_PASSWORD)
+  File "/usr/local/lib/python3.11/smtplib.py", line 750, in login
+    raise last_exception
+  File "/usr/local/lib/python3.11/smtplib.py", line 739, in login
+    (code, resp) = self.auth(
+                   ^^^^^^^^^^
+  File "/usr/local/lib/python3.11/smtplib.py", line 662, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials af79cd13be357-8eb19632130sm2067802185a.41 - gsmtp')
+; 157)
+[2026-04-26T00:13:53.559+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-04-26T00:13:53.592+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

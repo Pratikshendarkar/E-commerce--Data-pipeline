@@ -4,6 +4,7 @@
 ![Snowflake](https://img.shields.io/badge/Snowflake-29B5E8?style=for-the-badge&logo=snowflake&logoColor=white)
 ![AWS S3](https://img.shields.io/badge/AWS%20S3-FF9900?style=for-the-badge&logo=amazons3&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Airflow](https://img.shields.io/badge/Apache%20Airflow-017CEE?style=for-the-badge&logo=apacheairflow&logoColor=white)
 ![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)
 
 > End-to-end data engineering pipeline for the Brazilian Olist E-Commerce dataset.
@@ -21,6 +22,7 @@
 - [Gold Layer — Data Model](#gold-layer--data-model)
 - [Setup](#setup)
 - [Running the Pipeline](#running-the-pipeline)
+- [Airflow Orchestration](#airflow-orchestration)
 - [Docker](#docker)
 - [Data Quality](#data-quality)
 
@@ -60,7 +62,8 @@ flowchart LR
 |---|---|
 | Storage (Raw & Output) | AWS S3 |
 | Data Warehouse | Snowflake |
-| Orchestration | Python scripts + Docker Compose |
+| Orchestration | Apache Airflow 2.8.1 |
+| Workflow Management | Docker Compose |
 | Containerisation | Docker |
 | BI / Reporting | Power BI |
 | Language | Python 3.11 |
@@ -71,21 +74,28 @@ flowchart LR
 
 ```
 Dataengineer/
-├── Dockerfile
-├── docker-compose.yml
-├── .env                                  # credentials (not committed)
+├── Dockerfile                            # Container image definition
+├── docker-compose.yml                    # Docker orchestration
+├── .env                                  # Credentials (not committed)
 ├── .gitignore
+│
+├── dags/
+│   └── olist_pipeline_dag.py             # Airflow DAG: all 6 pipeline stages
 │
 ├── data_ingestion/
 │   ├── s3_to_bronze.py                   # S3 → Snowflake BRONZE
 │   ├── bronze_to_silver.py               # BRONZE → SILVER (remove bad records)
 │   ├── silver_to_gold.py                 # SILVER → GOLD (transform & model)
 │   ├── gold_to_s3.py                     # GOLD → S3 export
-│   ├── data_cleaning.py                  # Flag & cap outliers (BRONZE _clean tables)
-│   ├── quality_checks.py                 # QC checks on BRONZE tables
-│   ├── send_report.py                    # Email report — data cleaning summary
-│   ├── send_silver_report.py             # Email report — Bronze→Silver summary
-│   └── requirements.txt
+│   ├── data_cleaning.py                  # Flag & cap outliers (IQR method)
+│   ├── quality_checks.py                 # 25 QC checks on BRONZE tables
+│   ├── send_report.py                    # Email: data cleaning summary
+│   ├── send_silver_report.py             # Email: Bronze→Silver summary
+│   └── requirements.txt                  # Python dependencies
+│
+├── AIRFLOW_SETUP.md                      # Local Airflow setup guide
+├── DOCKER_AIRFLOW.md                     # Docker Airflow guide
+├── README.md                             # This file
 │
 └── Inputdata/                            # Source CSVs (local reference)
     ├── olist_customers_dataset.csv
@@ -271,9 +281,53 @@ pip install -r data_ingestion/requirements.txt
 
 ## Running the Pipeline
 
-### Local (Python)
+### Option 1: Airflow Orchestration (Recommended) 🚀
 
 ```bash
+# Start Airflow scheduler & webserver in Docker
+docker-compose up -d airflow-scheduler airflow-webserver
+
+# Open Airflow UI
+# http://localhost:8080
+
+# Login with: admin / admin
+
+# Find "olist_data_pipeline" DAG and click play button ▶
+```
+
+**Features:**
+- Automatic scheduling (daily at 2 AM UTC)
+- Real-time monitoring & logging
+- Automatic retries on failure
+- Task dependencies enforced
+- All 6 stages run in sequence
+
+For detailed setup, see: [DOCKER_AIRFLOW.md](DOCKER_AIRFLOW.md)
+
+---
+
+### Option 2: Docker (Manual Stages)
+
+```bash
+# Build image
+docker build -t olist-pipeline .
+
+# Run individual stages
+docker-compose run s3_to_bronze
+docker-compose run quality_checks
+docker-compose run data_cleaning
+docker-compose run bronze_to_silver
+docker-compose run silver_to_gold
+docker-compose run gold_to_s3
+```
+
+---
+
+### Option 3: Local Python (Direct Execution)
+
+```bash
+pip install -r data_ingestion/requirements.txt
+
 # 1. Ingest raw CSVs from S3 into Snowflake BRONZE
 python data_ingestion/s3_to_bronze.py
 
@@ -291,17 +345,50 @@ python data_ingestion/silver_to_gold.py
 
 # 6. Export GOLD tables back to S3
 python data_ingestion/gold_to_s3.py
-
-# 7. Send email reports
-python data_ingestion/send_report.py
-python data_ingestion/send_silver_report.py
 ```
 
-For a full refresh (drop and reload everything):
+**Full refresh (drop and reload all tables):**
 
 ```bash
 python data_ingestion/s3_to_bronze.py --full-refresh
 ```
+
+---
+
+## Airflow Orchestration
+
+**DAG:** `olist_data_pipeline`
+
+**Schedule:** Daily at 2 AM UTC (configurable)
+
+**Tasks:**
+1. `s3_to_bronze` — Load raw CSVs from S3
+2. `quality_checks` — Run 25 validation checks (parallel)
+3. `data_cleaning` — Flag & cap outliers (parallel)
+4. `bronze_to_silver` — Remove invalid records
+5. `silver_to_gold` — Build star schema + ML features
+6. `gold_to_s3` — Export GOLD tables back to S3
+
+**Task Dependencies:**
+```
+s3_to_bronze
+  └─> [quality_checks, data_cleaning] (parallel)
+        └─> bronze_to_silver
+              └─> silver_to_gold
+                    └─> gold_to_s3
+```
+
+**Web UI:** http://localhost:8080
+
+**Features:**
+- ✅ Automatic daily scheduling
+- ✅ Real-time task monitoring
+- ✅ Detailed logs for each task
+- ✅ Automatic retry on failure
+- ✅ One-click manual triggers
+- ✅ DAG dependency visualization
+
+See: [AIRFLOW_SETUP.md](AIRFLOW_SETUP.md) | [DOCKER_AIRFLOW.md](DOCKER_AIRFLOW.md)
 
 ---
 
@@ -313,24 +400,23 @@ python data_ingestion/s3_to_bronze.py --full-refresh
 docker build -t olist-pipeline .
 ```
 
-### Run individual stages
+### Start all services (Airflow + Pipeline)
 
 ```bash
-docker-compose run s3_to_bronze
-docker-compose run bronze_to_silver
-docker-compose run silver_to_gold
-docker-compose run gold_to_s3
+docker-compose up -d
 ```
 
-### Run full pipeline end to end
+### Stop all services
 
 ```bash
-docker-compose run s3_to_bronze && \
-docker-compose run bronze_to_silver && \
-docker-compose run data_cleaning && \
-docker-compose run silver_to_gold && \
-docker-compose run gold_to_s3 && \
-docker-compose run send_report
+docker-compose down
+```
+
+### View logs
+
+```bash
+docker-compose logs -f airflow-scheduler
+docker-compose logs -f airflow-webserver
 ```
 
 > **Note:** Credentials are injected at runtime via `.env` — they are never baked into the image.
@@ -353,8 +439,78 @@ A full HTML report can also be emailed after each run.
 
 ---
 
+## Quick Reference
+
+### Commands
+
+```bash
+# Airflow (Recommended)
+docker-compose up -d airflow-scheduler airflow-webserver
+# Open http://localhost:8080 → Trigger "olist_data_pipeline" DAG
+
+# Manual Docker
+docker-compose run s3_to_bronze
+docker-compose run bronze_to_silver
+docker-compose run silver_to_gold
+docker-compose run gold_to_s3
+
+# Local Python
+python data_ingestion/s3_to_bronze.py
+python data_ingestion/bronze_to_silver.py
+python data_ingestion/silver_to_gold.py
+python data_ingestion/gold_to_s3.py
+```
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `dags/olist_pipeline_dag.py` | Airflow DAG definition |
+| `data_ingestion/s3_to_bronze.py` | Load S3 → BRONZE |
+| `data_ingestion/bronze_to_silver.py` | Clean & validate |
+| `data_ingestion/silver_to_gold.py` | Transform & model |
+| `data_ingestion/gold_to_s3.py` | Export to S3 |
+| `docker-compose.yml` | Container orchestration |
+| `.env` | Configuration (not committed) |
+
+### Documentation
+
+- **[AIRFLOW_SETUP.md](AIRFLOW_SETUP.md)** — Local Airflow setup
+- **[DOCKER_AIRFLOW.md](DOCKER_AIRFLOW.md)** — Docker + Airflow guide
+- **[README.md](README.md)** — This file
+
+---
+
+## Troubleshooting
+
+**Airflow DAG not showing in UI:**
+1. Check `dags/olist_pipeline_dag.py` exists
+2. Validate syntax: `docker-compose exec airflow-webserver airflow dags validate`
+3. Restart scheduler: `docker-compose restart airflow-scheduler`
+
+**Snowflake connection failed:**
+1. Verify `.env` credentials: `SNOWFLAKE_USER`, `SNOWFLAKE_PASSWORD`, `SNOWFLAKE_ACCOUNT`
+2. Test connection: `python data_ingestion/s3_to_bronze.py` (local)
+
+**S3 access denied:**
+1. Check `AWS_KEY_ID` and `AWS_SECRET_KEY` in `.env`
+2. Verify bucket name: `S3_BUCKET=awsdatapratik`
+
+**Docker out of disk space:**
+```bash
+docker system prune -a --volumes  # Clean up unused images
+docker-compose down -v             # Remove all volumes
+```
+
+**Need help?**
+- Airflow logs: http://localhost:8080 → Task → Logs
+- Docker logs: `docker-compose logs -f <service-name>`
+- Full transcript: `.claude/projects/...`
+
+---
+
 ## Author
 
-**Pratik Shendarkar**
-Data Engineer | Rutgers University
+**Pratik Shendarkar**  
+Data Engineer | Rutgers University  
 [ps1424@scarletmail.rutgers.edu](mailto:ps1424@scarletmail.rutgers.edu)

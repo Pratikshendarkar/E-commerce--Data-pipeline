@@ -1,0 +1,87 @@
+[2026-04-26T00:06:26.395+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: olist_data_pipeline.bronze_to_silver manual__2026-04-26T00:05:32.687377+00:00 [queued]>
+[2026-04-26T00:06:26.428+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: olist_data_pipeline.bronze_to_silver manual__2026-04-26T00:05:32.687377+00:00 [queued]>
+[2026-04-26T00:06:26.429+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-04-26T00:06:26.537+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): bronze_to_silver> on 2026-04-26 00:05:32.687377+00:00
+[2026-04-26T00:06:26.544+0000] {standard_task_runner.py:60} INFO - Started process 80 to run task
+[2026-04-26T00:06:26.551+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'olist_data_pipeline', 'bronze_to_silver', 'manual__2026-04-26T00:05:32.687377+00:00', '--job-id', '39', '--raw', '--subdir', 'DAGS_FOLDER/olist_pipeline_dag.py', '--cfg-path', '/tmp/tmpjvq4qsoc']
+[2026-04-26T00:06:26.558+0000] {standard_task_runner.py:88} INFO - Job 39: Subtask bronze_to_silver
+[2026-04-26T00:06:26.743+0000] {task_command.py:423} INFO - Running <TaskInstance: olist_data_pipeline.bronze_to_silver manual__2026-04-26T00:05:32.687377+00:00 [running]> on host c24f832798f5
+[2026-04-26T00:06:26.975+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data-engineering' AIRFLOW_CTX_DAG_ID='olist_data_pipeline' AIRFLOW_CTX_TASK_ID='bronze_to_silver' AIRFLOW_CTX_EXECUTION_DATE='2026-04-26T00:05:32.687377+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-04-26T00:05:32.687377+00:00'
+[2026-04-26T00:06:45.756+0000] {logging_mixin.py:188} INFO - Schema DATAENGINEER.SILVER ready.
+
+[1] olist_customers  ->  olist_customers_stage
+    -> 99,441 rows
+
+[2] olist_geolocation  ->  olist_geolocation_stage
+    -> 1,000,163 rows
+
+[3] product_category_name_translation  ->  product_category_name_translation_stage
+    -> 71 rows
+
+[4] olist_products  ->  olist_products_stage  (remove dimension/weight outliers)
+    product_weight_g: bounds [-2100.0, 4300.0]
+    product_length_cm: bounds [-12.0, 68.0]
+    product_height_cm: bounds [-11.5, 40.5]
+    product_width_cm: bounds [-7.5, 52.5]
+    -> 26,983 rows
+
+[5] olist_order_reviews  ->  olist_order_reviews_stage  (dedup + cascade from orders)
+    -> 97,039 rows
+
+[6] olist_orders  ->  olist_orders_stage  (remove date-sequence violations)
+    -> 98,059 rows
+
+[7] olist_order_items  ->  olist_order_items_stage  (remove price/freight outliers)
+    price: bounds [-102.60, 277.40]
+    freight_value: bounds [0.98, 33.25]
+    -> 82,971 rows
+
+[8] olist_order_payments  ->  olist_order_payments_stage  (remove invalid + outlier payments)
+    payment_value: upper bound 344.37
+    -> 94,555 rows
+
+
+-- Running quality checks on SILVER tables ---------------------
+
+-- SILVER Row Counts -------------------------------------------
+  olist_customers_stage                                 99,441  (no rows removed)
+  olist_geolocation_stage                            1,000,163  (no rows removed)
+  olist_order_items_stage                               82,971  (-29,679 removed)
+  olist_order_payments_stage                            94,555  (-9,331 removed)
+  olist_order_reviews_stage                             97,039  (-2,185 removed)
+  olist_orders_stage                                    98,059  (-1,382 removed)
+  olist_products_stage                                  26,983  (-5,968 removed)
+  product_category_name_translation_stage                   71  (no rows removed)
+
+-- Quality Check Results (SILVER) ------------------------------
+  [PASS] customers: no null customer_id
+  [PASS] orders: no null order_id
+  [PASS] orders: no null customer_id
+  [PASS] order_items: no null order_id
+  [PASS] order_items: no null product_id
+  [PASS] order_payments: no null order_id
+  [PASS] order_reviews: no null review_id
+  [PASS] products: no null product_id
+  [PASS] customers: no duplicate customer_id
+  [PASS] orders: no duplicate order_id
+  [PASS] order_reviews: no duplicate review_id
+  [PASS] products: no duplicate product_id
+  [PASS] order_items: no duplicate (order_id, order_item_id)
+  [PASS] RI: orders.customer_id -> customers
+  [PASS] RI: order_items.order_id -> orders
+  [PASS] RI: order_payments.order_id -> orders
+  [PASS] RI: order_reviews.order_id -> orders
+  [PASS] RI: order_items.product_id -> products
+  [PASS] order_reviews: review_score between 1 and 5
+  [PASS] order_items: price > 0
+  [PASS] order_items: freight_value >= 0
+  [PASS] order_payments: payment_value > 0
+  [PASS] order_payments: payment_installments >= 1
+  [PASS] orders: carrier_date >= approved_at
+  [PASS] orders: customer_date >= carrier_date
+
+  25 passed / 0 failed out of 25 checks
+[2026-04-26T00:06:45.757+0000] {python.py:201} INFO - Done. Returned value was: None
+[2026-04-26T00:06:45.786+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=olist_data_pipeline, task_id=bronze_to_silver, execution_date=20260426T000532, start_date=20260426T000626, end_date=20260426T000645
+[2026-04-26T00:06:45.883+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-04-26T00:06:45.963+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

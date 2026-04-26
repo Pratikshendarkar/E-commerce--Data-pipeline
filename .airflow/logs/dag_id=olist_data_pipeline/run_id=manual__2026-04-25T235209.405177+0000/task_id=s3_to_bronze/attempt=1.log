@@ -1,0 +1,37 @@
+[2026-04-25T23:52:13.134+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: olist_data_pipeline.s3_to_bronze manual__2026-04-25T23:52:09.405177+00:00 [queued]>
+[2026-04-25T23:52:13.156+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: olist_data_pipeline.s3_to_bronze manual__2026-04-25T23:52:09.405177+00:00 [queued]>
+[2026-04-25T23:52:13.157+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-04-25T23:52:13.224+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): s3_to_bronze> on 2026-04-25 23:52:09.405177+00:00
+[2026-04-25T23:52:13.229+0000] {standard_task_runner.py:60} INFO - Started process 22 to run task
+[2026-04-25T23:52:13.235+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'olist_data_pipeline', 's3_to_bronze', 'manual__2026-04-25T23:52:09.405177+00:00', '--job-id', '5', '--raw', '--subdir', 'DAGS_FOLDER/olist_pipeline_dag.py', '--cfg-path', '/tmp/tmp879jonuu']
+[2026-04-25T23:52:13.239+0000] {standard_task_runner.py:88} INFO - Job 5: Subtask s3_to_bronze
+[2026-04-25T23:52:13.411+0000] {task_command.py:423} INFO - Running <TaskInstance: olist_data_pipeline.s3_to_bronze manual__2026-04-25T23:52:09.405177+00:00 [running]> on host c24f832798f5
+[2026-04-25T23:52:13.610+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data-engineering' AIRFLOW_CTX_DAG_ID='olist_data_pipeline' AIRFLOW_CTX_TASK_ID='s3_to_bronze' AIRFLOW_CTX_EXECUTION_DATE='2026-04-25T23:52:09.405177+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-04-25T23:52:09.405177+00:00'
+[2026-04-25T23:52:33.514+0000] {logging_mixin.py:188} INFO - Mode: INCREMENTAL
+Setting up stage...
+Loading tables...
+
+  olist_customers: LOADED — 0 rows loaded, 0 errors  [APPEND]
+  [olist_geolocation] metadata columns added (_source_file, _loaded_at)
+  olist_geolocation: LOADED — 0 rows loaded, 0 errors  [APPEND]
+  [olist_order_items] metadata columns added (_source_file, _loaded_at)
+  [olist_order_items] last watermark: 2020-04-09 22:35:08
+  olist_order_items: LOADED — 0 rows loaded, 0 errors  [APPEND]
+  [olist_order_payments] metadata columns added (_source_file, _loaded_at)
+  olist_order_payments: LOADED — 0 rows loaded, 0 errors  [APPEND]
+  [olist_order_reviews] metadata columns added (_source_file, _loaded_at)
+  [olist_order_reviews] last watermark: 2018-08-31 00:00:00
+  olist_order_reviews: LOADED — 0 rows loaded, 0 errors  [APPEND]
+  [olist_orders] metadata columns added (_source_file, _loaded_at)
+  [olist_orders] last watermark: 2018-10-17 17:30:18
+  olist_orders: LOADED — 0 rows loaded, 0 errors  [APPEND]
+  [olist_products] metadata columns added (_source_file, _loaded_at)
+  olist_products: LOADED — 0 rows loaded, 0 errors  [APPEND]
+  [product_category_name_translation] metadata columns added (_source_file, _loaded_at)
+  product_category_name_translation: LOADED — 0 rows loaded, 0 errors  [APPEND]
+
+All tables loaded successfully!
+[2026-04-25T23:52:33.515+0000] {python.py:201} INFO - Done. Returned value was: None
+[2026-04-25T23:52:33.549+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=olist_data_pipeline, task_id=s3_to_bronze, execution_date=20260425T235209, start_date=20260425T235213, end_date=20260425T235233
+[2026-04-25T23:52:33.728+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-04-25T23:52:33.820+0000] {taskinstance.py:3280} INFO - 2 downstream tasks scheduled from follow-on schedule check
