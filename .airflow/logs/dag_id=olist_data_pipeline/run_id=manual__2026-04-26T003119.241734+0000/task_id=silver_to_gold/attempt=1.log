@@ -1,0 +1,91 @@
+[2026-04-26T00:32:38.377+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: olist_data_pipeline.silver_to_gold manual__2026-04-26T00:31:19.241734+00:00 [queued]>
+[2026-04-26T00:32:38.416+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: olist_data_pipeline.silver_to_gold manual__2026-04-26T00:31:19.241734+00:00 [queued]>
+[2026-04-26T00:32:38.417+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-04-26T00:32:38.533+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): silver_to_gold> on 2026-04-26 00:31:19.241734+00:00
+[2026-04-26T00:32:38.539+0000] {standard_task_runner.py:60} INFO - Started process 306 to run task
+[2026-04-26T00:32:38.547+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'olist_data_pipeline', 'silver_to_gold', 'manual__2026-04-26T00:31:19.241734+00:00', '--job-id', '68', '--raw', '--subdir', 'DAGS_FOLDER/olist_pipeline_dag.py', '--cfg-path', '/tmp/tmpljt_g6lv']
+[2026-04-26T00:32:38.553+0000] {standard_task_runner.py:88} INFO - Job 68: Subtask silver_to_gold
+[2026-04-26T00:32:38.789+0000] {task_command.py:423} INFO - Running <TaskInstance: olist_data_pipeline.silver_to_gold manual__2026-04-26T00:31:19.241734+00:00 [running]> on host c24f832798f5
+[2026-04-26T00:32:39.123+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data-engineering' AIRFLOW_CTX_DAG_ID='olist_data_pipeline' AIRFLOW_CTX_TASK_ID='silver_to_gold' AIRFLOW_CTX_EXECUTION_DATE='2026-04-26T00:31:19.241734+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-04-26T00:31:19.241734+00:00'
+[2026-04-26T00:33:09.533+0000] {logging_mixin.py:188} INFO - Schema DATAENGINEER.GOLD ready.
+
+[1] dim_date ...
+    1,461 rows
+
+[2] dim_geolocation ...
+    19,015 rows
+
+[3] dim_customers ...
+    99,441 rows
+
+[4] dim_sellers ...
+    2,615 rows
+
+[5] dim_products ...
+    26,983 rows
+
+[6] fact_orders ...
+    98,301 rows
+
+[7] fact_order_items ...
+    82,971 rows
+
+[8] agg_revenue_by_category ...
+    1,186 rows
+
+[9] agg_revenue_by_state ...
+    565 rows
+
+[10] agg_seller_performance ...
+    2,615 rows
+
+[11] agg_customer_cohorts ...
+    225 rows
+
+[12] ml_customer_features ...
+    94,815 rows
+
+[13] ml_seller_features ...
+    2,615 rows
+
+[14] ml_delivery_features ...
+    95,340 rows
+
+[15] ml_review_features ...
+    97,039 rows
+
+[16] master_table (fully denormalized, one row per order-item) ...
+    108,841 rows
+
+
+-- GOLD Layer Summary ------------------------------------------
+
+  DIMENSIONS
+    dim_date                                           1,461 rows
+    dim_geolocation                                   19,015 rows
+    dim_customers                                     99,441 rows
+    dim_sellers                                        2,615 rows
+    dim_products                                      26,983 rows
+
+  FACTS
+    fact_orders                                       98,301 rows
+    fact_order_items                                  82,971 rows
+
+  AGGREGATES
+    agg_revenue_by_category                            1,186 rows
+    agg_revenue_by_state                                 565 rows
+    agg_seller_performance                             2,615 rows
+    agg_customer_cohorts                                 225 rows
+
+  ML FEATURES
+    ml_customer_features                              94,815 rows
+    ml_seller_features                                 2,615 rows
+    ml_delivery_features                              95,340 rows
+    ml_review_features                                97,039 rows
+
+  MASTER
+    master_table                                     108,841 rows
+[2026-04-26T00:33:09.534+0000] {python.py:201} INFO - Done. Returned value was: None
+[2026-04-26T00:33:09.562+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=olist_data_pipeline, task_id=silver_to_gold, execution_date=20260426T003119, start_date=20260426T003238, end_date=20260426T003309
+[2026-04-26T00:33:09.662+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-04-26T00:33:09.762+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

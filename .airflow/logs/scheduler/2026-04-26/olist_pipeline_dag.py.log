@@ -376,3 +376,80 @@
 [2026-04-26T00:28:34.411+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:28:34.410+0000] {dag.py:3036} INFO - Sync 1 DAGs
 [2026-04-26T00:28:34.464+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:28:34.463+0000] {dag.py:3823} INFO - Setting next_dagrun for olist_data_pipeline to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
 [2026-04-26T00:28:34.632+0000] {processor.py:183} INFO - Processing /app/dags/olist_pipeline_dag.py took 0.361 seconds
+[2026-04-26T00:29:05.292+0000] {processor.py:161} INFO - Started process (PID=207) to work on /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:29:05.294+0000] {processor.py:830} INFO - Processing file /app/dags/olist_pipeline_dag.py for tasks to queue
+[2026-04-26T00:29:05.295+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:29:05.294+0000] {dagbag.py:538} INFO - Filling up the DagBag from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:29:05.333+0000] {processor.py:840} INFO - DAG(s) 'olist_data_pipeline' retrieved from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:29:05.375+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:29:05.375+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-04-26T00:29:05.416+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:29:05.416+0000] {dag.py:3823} INFO - Setting next_dagrun for olist_data_pipeline to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T00:29:05.550+0000] {processor.py:183} INFO - Processing /app/dags/olist_pipeline_dag.py took 0.261 seconds
+[2026-04-26T00:29:35.854+0000] {processor.py:161} INFO - Started process (PID=214) to work on /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:29:35.856+0000] {processor.py:830} INFO - Processing file /app/dags/olist_pipeline_dag.py for tasks to queue
+[2026-04-26T00:29:35.858+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:29:35.857+0000] {dagbag.py:538} INFO - Filling up the DagBag from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:29:35.946+0000] {processor.py:840} INFO - DAG(s) 'olist_data_pipeline' retrieved from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:29:36.029+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:29:36.029+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-04-26T00:29:36.092+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:29:36.092+0000] {dag.py:3823} INFO - Setting next_dagrun for olist_data_pipeline to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T00:29:36.241+0000] {processor.py:183} INFO - Processing /app/dags/olist_pipeline_dag.py took 0.393 seconds
+[2026-04-26T00:30:06.596+0000] {processor.py:161} INFO - Started process (PID=221) to work on /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:30:06.599+0000] {processor.py:830} INFO - Processing file /app/dags/olist_pipeline_dag.py for tasks to queue
+[2026-04-26T00:30:06.601+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:30:06.601+0000] {dagbag.py:538} INFO - Filling up the DagBag from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:30:06.679+0000] {processor.py:840} INFO - DAG(s) 'olist_data_pipeline' retrieved from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:30:06.747+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:30:06.747+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-04-26T00:30:06.799+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:30:06.799+0000] {dag.py:3823} INFO - Setting next_dagrun for olist_data_pipeline to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T00:30:06.965+0000] {processor.py:183} INFO - Processing /app/dags/olist_pipeline_dag.py took 0.374 seconds
+[2026-04-26T00:30:38.262+0000] {processor.py:161} INFO - Started process (PID=228) to work on /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:30:38.265+0000] {processor.py:830} INFO - Processing file /app/dags/olist_pipeline_dag.py for tasks to queue
+[2026-04-26T00:30:38.267+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:30:38.267+0000] {dagbag.py:538} INFO - Filling up the DagBag from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:30:38.335+0000] {processor.py:840} INFO - DAG(s) 'olist_data_pipeline' retrieved from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:30:38.408+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:30:38.408+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-04-26T00:30:38.460+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:30:38.459+0000] {dag.py:3823} INFO - Setting next_dagrun for olist_data_pipeline to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T00:30:38.612+0000] {processor.py:183} INFO - Processing /app/dags/olist_pipeline_dag.py took 0.354 seconds
+[2026-04-26T00:31:08.850+0000] {processor.py:161} INFO - Started process (PID=235) to work on /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:31:08.852+0000] {processor.py:830} INFO - Processing file /app/dags/olist_pipeline_dag.py for tasks to queue
+[2026-04-26T00:31:08.854+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:31:08.854+0000] {dagbag.py:538} INFO - Filling up the DagBag from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:31:08.915+0000] {processor.py:840} INFO - DAG(s) 'olist_data_pipeline' retrieved from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:31:08.989+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:31:08.989+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-04-26T00:31:09.050+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:31:09.050+0000] {dag.py:3823} INFO - Setting next_dagrun for olist_data_pipeline to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T00:31:09.244+0000] {processor.py:183} INFO - Processing /app/dags/olist_pipeline_dag.py took 0.401 seconds
+[2026-04-26T00:31:45.775+0000] {processor.py:161} INFO - Started process (PID=254) to work on /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:31:45.777+0000] {processor.py:830} INFO - Processing file /app/dags/olist_pipeline_dag.py for tasks to queue
+[2026-04-26T00:31:45.780+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:31:45.779+0000] {dagbag.py:538} INFO - Filling up the DagBag from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:31:45.848+0000] {processor.py:840} INFO - DAG(s) 'olist_data_pipeline' retrieved from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:31:45.920+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:31:45.920+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-04-26T00:31:45.979+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:31:45.979+0000] {dag.py:3823} INFO - Setting next_dagrun for olist_data_pipeline to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T00:31:46.183+0000] {processor.py:183} INFO - Processing /app/dags/olist_pipeline_dag.py took 0.413 seconds
+[2026-04-26T00:32:35.169+0000] {processor.py:161} INFO - Started process (PID=303) to work on /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:32:35.172+0000] {processor.py:830} INFO - Processing file /app/dags/olist_pipeline_dag.py for tasks to queue
+[2026-04-26T00:32:35.174+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:32:35.174+0000] {dagbag.py:538} INFO - Filling up the DagBag from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:32:35.266+0000] {processor.py:840} INFO - DAG(s) 'olist_data_pipeline' retrieved from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:32:35.387+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:32:35.387+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-04-26T00:32:35.443+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:32:35.443+0000] {dag.py:3823} INFO - Setting next_dagrun for olist_data_pipeline to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T00:32:35.627+0000] {processor.py:183} INFO - Processing /app/dags/olist_pipeline_dag.py took 0.467 seconds
+[2026-04-26T00:33:10.867+0000] {processor.py:161} INFO - Started process (PID=323) to work on /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:33:10.869+0000] {processor.py:830} INFO - Processing file /app/dags/olist_pipeline_dag.py for tasks to queue
+[2026-04-26T00:33:10.871+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:33:10.870+0000] {dagbag.py:538} INFO - Filling up the DagBag from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:33:10.946+0000] {processor.py:840} INFO - DAG(s) 'olist_data_pipeline' retrieved from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:33:11.022+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:33:11.021+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-04-26T00:33:11.085+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:33:11.084+0000] {dag.py:3823} INFO - Setting next_dagrun for olist_data_pipeline to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T00:33:11.221+0000] {processor.py:183} INFO - Processing /app/dags/olist_pipeline_dag.py took 0.363 seconds
+[2026-04-26T00:33:41.525+0000] {processor.py:161} INFO - Started process (PID=342) to work on /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:33:41.527+0000] {processor.py:830} INFO - Processing file /app/dags/olist_pipeline_dag.py for tasks to queue
+[2026-04-26T00:33:41.529+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:33:41.529+0000] {dagbag.py:538} INFO - Filling up the DagBag from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:33:41.610+0000] {processor.py:840} INFO - DAG(s) 'olist_data_pipeline' retrieved from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:33:41.686+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:33:41.686+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-04-26T00:33:41.749+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:33:41.749+0000] {dag.py:3823} INFO - Setting next_dagrun for olist_data_pipeline to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T00:33:41.936+0000] {processor.py:183} INFO - Processing /app/dags/olist_pipeline_dag.py took 0.417 seconds
+[2026-04-26T00:34:12.857+0000] {processor.py:161} INFO - Started process (PID=350) to work on /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:34:12.859+0000] {processor.py:830} INFO - Processing file /app/dags/olist_pipeline_dag.py for tasks to queue
+[2026-04-26T00:34:12.861+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:34:12.861+0000] {dagbag.py:538} INFO - Filling up the DagBag from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:34:12.933+0000] {processor.py:840} INFO - DAG(s) 'olist_data_pipeline' retrieved from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:34:12.996+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:34:12.995+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-04-26T00:34:13.043+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:34:13.042+0000] {dag.py:3823} INFO - Setting next_dagrun for olist_data_pipeline to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T00:34:13.217+0000] {processor.py:183} INFO - Processing /app/dags/olist_pipeline_dag.py took 0.366 seconds
+[2026-04-26T00:34:43.429+0000] {processor.py:161} INFO - Started process (PID=357) to work on /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:34:43.431+0000] {processor.py:830} INFO - Processing file /app/dags/olist_pipeline_dag.py for tasks to queue
+[2026-04-26T00:34:43.434+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:34:43.433+0000] {dagbag.py:538} INFO - Filling up the DagBag from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:34:43.496+0000] {processor.py:840} INFO - DAG(s) 'olist_data_pipeline' retrieved from /app/dags/olist_pipeline_dag.py
+[2026-04-26T00:34:43.568+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:34:43.567+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-04-26T00:34:43.641+0000] {logging_mixin.py:188} INFO - [2026-04-26T00:34:43.641+0000] {dag.py:3823} INFO - Setting next_dagrun for olist_data_pipeline to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T00:34:43.802+0000] {processor.py:183} INFO - Processing /app/dags/olist_pipeline_dag.py took 0.378 seconds
