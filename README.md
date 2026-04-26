@@ -391,6 +391,7 @@ s3_to_bronze
 - ✅ DAG dependency visualization
 
 See: [AIRFLOW_SETUP.md](AIRFLOW_SETUP.md) | [DOCKER_AIRFLOW.md](DOCKER_AIRFLOW.md)
+<img width="1478" height="529" alt="image" src="https://github.com/user-attachments/assets/bce5a346-1950-45aa-8fad-dfa3e7f9f501" />
 
 ---
 
